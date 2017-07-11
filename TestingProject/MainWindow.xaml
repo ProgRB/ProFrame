@@ -1,0 +1,48 @@
+﻿<Window x:Class="TestingProject.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TestingProject"
+        xmlns:tkt="clr-namespace:System.Windows.Controls;assembly=ProFrame"
+        mc:Ignorable="d" Closed="Window_Closed"
+        Title="Тестовая форма проверки" Height="350" Width="525">
+    <Window.Resources>
+        <CollectionViewSource x:Key="TestBigSource" Source="{x:Static local:TestSourceString.Collection}"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="AutoCompleteBox:" Margin="10,3,10,2" VerticalAlignment="Center"/>
+        <tkt:AutoCompleteBox Grid.Column="1" Margin="0,5" VerticalAlignment="Center" Height="23"
+                             FilterMode="Contains"
+                             ItemsSource="{Binding Source={StaticResource TestBigSource}}"
+             BorderBrush="LightSteelBlue" BorderThickness="2" ValueMemberBinding="{Binding EmpLastName}">
+            <tkt:AutoCompleteBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition SharedSizeGroup="aucbcll1"/>
+                            <ColumnDefinition SharedSizeGroup="aucbcll2"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding EmpLastName}" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="1" Text="{Binding EmpFirstName}" VerticalAlignment="Center" Padding="10,2"/>
+                    </Grid>
+                </DataTemplate>
+            </tkt:AutoCompleteBox.ItemTemplate>
+        </tkt:AutoCompleteBox>
+        <Button Grid.Row="1" Grid.Column="1" Content="Тест соединения" HorizontalAlignment="Left" Padding="10,2"
+                Click="TestConnect_Click"/>
+        <Button Grid.Row="2" Grid.Column="1" Content="Тест авторизации" HorizontalAlignment="Left" Padding="10,2"
+                Click="TestAutorization_Click"/>
+    </Grid>
+</Window>

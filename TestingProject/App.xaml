@@ -1,0 +1,8 @@
+﻿<Application x:Class="TestingProject.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:TestingProject">
+    <Application.Resources>
+        <ResourceDictionary Source="/ProFrame;component/AppResources.xaml"/>
+    </Application.Resources>
+</Application>

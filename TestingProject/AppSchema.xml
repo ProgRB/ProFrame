@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Tables>
+    <Table Name="SUBDIV" Comment="Справочник подразделений" SchemaName="APSTAFF">
+      <Column Name="SUBDIV_ID" Comment="Уникальный идентификатор подразделения, из которого образовалось данное подразделение;" DBType="NUMBER" Type="System.Decimal" IsPrimaryKey="True"/>
+      <Column Name="GR_WORK_ID" Comment="Уникальный идентификатор графика работы;" DBType="NUMBER" Type="System.Decimal"/>
+      <Column Name="TYPE_SUBDIV_ID" Comment="Наименование типа подразделения;" DBType="NUMBER" Type="System.Decimal"/>
+      <Column Name="FROM_SUBDIV" Comment="Уникальный идентификатор подразделения, из которого образовалось данное подразделение;" DBType="NUMBER" Type="System.Decimal"/>
+      <Column Name="PARENT_ID" Comment="Код подразделения; Код подразделения, которому подчиняется данное подразделение;" DBType="NUMBER" Type="System.Decimal"/>
+      <Column Name="SUB_DATE_END" Comment="Дата окончания действия имени и кода для данного подразделения;" DBType="DATE" Type="System.DateTime"/>
+      <Column Name="SUB_DATE_START" Comment="Дата введения в действие кода и наименования для данного подразделения;" DBType="DATE" Type="System.DateTime"/>
+      <Column Name="SERVICE_ID" Comment="Уникальный идентификатор службы завода;" DBType="NUMBER" Type="System.Decimal"/>
+      <Column Name="WORK_TYPE_ID" Comment="Уникальный идентификатор типа работы подразделения;" DBType="NUMBER" Type="System.Decimal"/>
+      <Column Name="SUB_ACTUAL_SIGN" Comment="Признак актуальности; Признак актуальности подразделения (если равен 1, то подразделение в данный момент актуально, если 0, то подразделение не актуально, то есть было когда-то, но сейчас его нет);" DBType="NUMBER" Type="System.Int16"/>
+      <Column Name="SUBDIV_NAME" Comment="Наименование подразделения; Текущее наименование подразделения;" DBType="VARCHAR2" Type="System.String" Nullable="False"/>
+      <Column Name="CODE_SUBDIV" Comment="Код подразделения; Текущий код подразделения;" DBType="VARCHAR2" Type="System.String"/>
+    </Table>
+</Tables>
+

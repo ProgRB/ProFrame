@@ -1,0 +1,22 @@
+﻿<base:MainWindowBase x:Class="TestingProject.TestMainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TestingProject"
+        xmlns:base="clr-namespace:ProFrame;assembly=ProFrame"
+        mc:Ignorable="d" WindowState="Maximized"
+        Title="TestMainWindow" Height="352" Width="676" Style="{StaticResource MainWindowBaseStyle}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" >
+            <Button Content="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Command.Text}" Margin="4" Command="local:TestMainWindow.ComTest"
+                    CommandManager.CanExecute="Button_CanExecute" CommandManager.Executed="Button_Executed"/>
+            <Button Content="Test2" Margin="4" Click="Button2_Click"/>
+        </StackPanel>
+    </Grid>
+</base:MainWindowBase>
