@@ -6,7 +6,7 @@ using System.Text;
 
 namespace ProFrame.Model
 {
-    public class UniDbTable<T>:ObservableCollectionView<T> where T: UniDbRow
+    public class UniDbTable<T>:ObservableCollectionViewBase<T> where T: UniDbRow
     {
         public UniDbTable(string tableName, string schemaName = null)
         {
@@ -106,7 +106,7 @@ namespace ProFrame.Model
 
             if (!string.IsNullOrEmpty(DbTableName))
             {
-                _dataAdapter.SelectCommand = UniCommandBuilder.GetSelectCommand(SchemaName, TableName);
+                _dataAdapter.SelectCommand = UniCommandBuilder.GetSelectCommand(SchemaName, DbTableName);
             }
             UniSchemaColumn[] cols = SchemaTableManager.GetUpdatedColumns(TableName).ToArray();
             if (cols == null) return;
@@ -165,6 +165,7 @@ namespace ProFrame.Model
             if (Table == null)
                 Table = new DataTable();
             DataAdapter.Fill(Table);
+            
         }
                 
     }

@@ -10,238 +10,26 @@ using System.Text;
 namespace ProFrame.Model
 {
 
-    /// <summary>Provides a view for an <see cref="ObservableCollection{T}"/> with automatic sorting and filtering. </summary>
-    /// <typeparam name="TItem">The type of an item. </typeparam>
-    public class ObservableCollectionView<TItem> : ObservableCollectionViewBase<TItem>, IObservableCollectionView
-    {
-        private Func<TItem, bool> _filter;
-        private Func<TItem, object> _order;
-
-        private int _offset=0;
-        private int _limit=0;
-        private bool _ascending = true;
-
-        /// <summary>Initializes a new instance of the <see cref="ObservableCollectionView{TItem}"/> class. </summary>
-        public ObservableCollectionView()
-            : this(new ObservableCollection<TItem>())
-        {
-        }
-
-        /// <summary>Initializes a new instance of the <see cref="ObservableCollectionView{TItem}"/> class. </summary>
-        /// <param name="items">The source item list. </param>
-        public ObservableCollectionView(IList<TItem> items)
-            : this(items, null, null, true, false)
-        {
-        }
-
-        /// <summary>Initializes a new instance of the <see cref="ObservableCollectionView{TItem}"/> class. </summary>
-        /// <param name="items">The source item list. </param>
-        /// <param name="filter">The filter of the view. </param>
-        public ObservableCollectionView(IList<TItem> items, Func<TItem, bool> filter)
-            : this(items, filter, null, true, false)
-        {
-        }
-
-        /// <summary>Initializes a new instance of the <see cref="ObservableCollectionView{TItem}"/> class. </summary>
-        /// <param name="items">The source item list. </param>
-        /// <param name="filter">The filter of the view. </param>
-        /// <param name="orderBy">The order key of the view. </param>
-        public ObservableCollectionView(IList<TItem> items, Func<TItem, bool> filter, Func<TItem, object> orderBy)
-            : this(items, filter, orderBy, true, false)
-        {
-        }
-
-        /// <summary>Initializes a new instance of the <see cref="ObservableCollectionView{TItem}"/> class. </summary>
-        /// <param name="items">The source item list. </param>
-        /// <param name="filter">The filter of the view. </param>
-        /// <param name="orderBy">The order key of the view. </param>
-        /// <param name="ascending">The value indicating whether to sort ascending. </param>
-        public ObservableCollectionView(IList<TItem> items, Func<TItem, bool> filter, Func<TItem, object> orderBy, bool ascending)
-            : this(items, filter, orderBy, ascending, false)
-        {
-        }
-
-        /// <summary>Initializes a new instance of the <see cref="ObservableCollectionView{TItem}"/> class. </summary>
-        /// <param name="items">The source item list. </param>
-        /// <param name="filter">The filter of the view. </param>
-        /// <param name="orderBy">The order key of the view. </param>
-        /// <param name="ascending">The value indicating whether to sort ascending. </param>
-        /// <param name="trackItemChanges">The value indicating whether to track items which implement <see cref="INotifyPropertyChanged"/></param>
-        public ObservableCollectionView(IList<TItem> items, Func<TItem, bool> filter, Func<TItem, object> orderBy, bool ascending, bool trackItemChanges)
-            : base(items, trackItemChanges)
-        {
-            Order = orderBy;
-            Filter = filter;
-            Ascending = ascending;
-        }
-
-        /// <summary>Gets or sets the filter. </summary>
-        public Func<TItem, bool> Filter
-        {
-            get { return _filter; }
-            set
-            {
-                if (_filter != value)
-                {
-                    _filter = value;
-                    Refresh();
-                }
-            }
-        }
-
-        /// <summary>Gets or sets the filter (a Func{TItem, bool} object). </summary>
-        object IObservableCollectionView.Filter
-        {
-            get { return Filter; }
-            set { Filter = (Func<TItem, bool>)value; }
-        }
-
-        /// <summary>Gets or sets the sorting/order function. </summary>
-        public Func<TItem, object> Order
-        {
-            get { return _order; }
-            set
-            {
-                if (_order != value)
-                {
-                    _order = value;
-                    Refresh();
-                }
-            }
-        }
-
-        /// <summary>Gets or sets the order. </summary>
-        object IObservableCollectionView.Order
-        {
-            get { return Order; }
-            set { Order = (Func<TItem, object>)value; }
-        }
-
-        /// <summary>Gets or sets the maximum number of items in the view. </summary>
-        public int Limit
-        {
-            get { return _limit; }
-            set
-            {
-                if (_limit != value)
-                {
-                    _limit = value;
-                    Refresh();
-                }
-            }
-        }
-
-        /// <summary>Gets or sets the offset from where the results a selected. </summary>
-        public int Offset
-        {
-            get { return _offset; }
-            set
-            {
-                if (_offset != value)
-                {
-                    _offset = value;
-                    Refresh();
-                }
-            }
-        }
-
-        /// <summary>Gets or sets a value indicating whether the sorting should be ascending; otherwise descending. </summary>
-        public bool Ascending
-        {
-            get { return _ascending; }
-            set
-            {
-                if (_ascending != value)
-                {
-                    _ascending = value;
-                    Refresh();
-                }
-            }
-        }
-
-        /// <summary>Gets the list of items with the current order and filter.</summary>
-        /// <returns>The items. </returns>
-        protected override IList<TItem> GetItems()
-        {
-            List<TItem> list;
-
-            if (Filter != null && Order != null && Ascending)
-                list = Items.Where(Filter).OrderBy(Order).ToList();
-            else if (Filter != null && Order != null && !Ascending)
-                list = Items.Where(Filter).OrderByDescending(Order).ToList();
-            else if (Filter == null && Order != null && Ascending)
-                list = Items.OrderBy(Order).ToList();
-            else if (Filter == null && Order != null && !Ascending)
-                list = Items.OrderByDescending(Order).ToList();
-            else if (Filter != null && Order == null)
-                list = Items.Where(Filter).ToList();
-            else if (Filter == null && Order == null)
-                list = Items.ToList();
-            else
-                throw new Exception();
-
-            if (Limit > 0 || Offset > 0)
-                list = list.Skip(Offset).Take(Limit).ToList();
-
-            return list;
-        }
-    }
-
-    /// <summary>Provides a view for an <see cref="ObservableCollection{T}"/> with automatic sorting and filtering. </summary>
-    public interface IObservableCollectionView : IList, INotifyCollectionChanged, INotifyPropertyChanged
-    {
-
-        /// <summary>Gets or sets the maximum number of items in the view. </summary>
-        int Limit { get; set; }
-
-        /// <summary>Gets or sets the offset from where the results a selected. </summary>
-        int Offset { get; set; }
-
-        /// <summary>Gets or sets a value indicating whether to sort ascending or descending. </summary>
-        bool Ascending { get; set; }
-
-        /// <summary>Gets or sets the filter (a Func{TItem, bool} object). </summary>
-        object Filter { get; set; }
-
-        /// <summary>Gets or sets the order (a Func{TItem, object} object). </summary>
-        object Order { get; set; }
-
-        /// <summary>Refreshes the view. </summary>
-        void Refresh();
-    }
-
-    /// <summary>Provides a view for an <see cref="ObservableCollection{T}"/> with automatic sorting and filtering. </summary>
-    /// <typeparam name="TItem">The type of an item. </typeparam>
+     /// <summary>Представление для данных типа <see cref="ObservableCollection{T}"/> с возможностью сортировки и фильтрациии </summary>
+    /// <typeparam name="TItem">Tип элементов </typeparam>
     public abstract class ObservableCollectionViewBase<TItem> : IList<TItem>, IDisposable, IList, INotifyCollectionChanged, INotifyPropertyChanged
     {
-        private NotifyCollectionChangedEventHandler _itemsChangedHandler;
         private MtObservableCollection<TItem> _internalCollection = new MtObservableCollection<TItem>();
 
         private readonly object _syncRoot = new object();
 
-        /// <summary>Initializes a new instance of the <see cref="ObservableCollectionViewBase{TItem}"/> class. </summary>
-        protected ObservableCollectionViewBase()
-            : this(new ObservableCollection<TItem>(), false)
+        /// <summary>Конструктор нового экзепляра класса <see cref="ObservableCollectionViewBase{TItem}"/> </summary>
+        protected ObservableCollectionViewBase() : this(new ObservableCollection<TItem>())
         {
         }
 
-        /// <summary>Initializes a new instance of the <see cref="ObservableCollectionViewBase{TItem}"/> class. </summary>
+        /// <summary>Конструктор экземпляра класса <see cref="ObservableCollectionViewBase{TItem}"/> </summary>
         /// <param name="items">The source item list. </param>
         protected ObservableCollectionViewBase(IList<TItem> items)
-            : this(items, false)
-        {
-        }
-
-        /// <summary>Initializes a new instance of the <see cref="ObservableCollectionViewBase{TItem}"/> class. </summary>
-        /// <param name="items">The source item list. </param>
-        /// <param name="trackItemChanges">The value indicating whether to track items which implement <see cref="INotifyPropertyChanged"/></param>
-        protected ObservableCollectionViewBase(IList<TItem> items, bool trackItemChanges)
         {
             Items = items;
-
             _internalCollection.CollectionChanged += OnInternalCollectionChanged;
             _internalCollection.PropertyChanged += OnInternalPropertyChanged;
-
             Refresh();
         }
 
@@ -273,35 +61,13 @@ namespace ProFrame.Model
         }
 
         /// <summary>Refreshes the view. </summary>
-        public void Update()
-        {
-            Refresh();
-        }
-
-        /// <summary>Refreshes the view. </summary>
-        public void Refresh()
-        {
-            
-            lock (SyncRoot)
-            {
-                var list = GetItems();
-               // if (!_internalCollection.IsCopyOf(list))
-                    _internalCollection.Initialize(list);
-            }
-        }
-
-        /// <summary>Gets the list of items with the current order and filter.</summary>
-        /// <returns>The items. </returns>
-        protected abstract IList<TItem> GetItems();
-
-        private void OnOriginalCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        public virtual void Refresh()
         {
             lock (SyncRoot)
             {
-                Refresh();
+                _internalCollection.Initialize(Items);
             }
         }
-
 
         #region Interfaces
 
@@ -477,7 +243,6 @@ namespace ProFrame.Model
     /// <typeparam name="T"></typeparam>
     public class MtObservableCollection<T> : ObservableCollection<T>
     {
-        private List<T> _oldCollection = null;
         private event EventHandler<MtNotifyCollectionChangedEventArgs<T>> _extendedCollectionChanged;
 
         /// <summary>Initializes a new instance of the <see cref="MtObservableCollection{T}"/> class.</summary>
@@ -491,12 +256,6 @@ namespace ProFrame.Model
         {
         }
 
-        /// <summary>Значение означающее сохранять старую коллекцию при изменении коллекции
-        /// Enabling this feature may have a performance impact as for each collection changed event a copy of the collection gets created. </summary>
-        public bool ProvideOldCollection
-        {
-            get; set;
-        }
 
         /// <summary>Occurs when a property value changes. 
         /// This is the same event as on the <see cref="ObservableCollection{T}"/> except that it is public. </summary>
@@ -552,7 +311,7 @@ namespace ProFrame.Model
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
 
-        /// <summary>Collection changed event with safe/always correct added items and removed items list. </summary>
+        private List<T> _oldCollection = null;
         public event EventHandler<MtNotifyCollectionChangedEventArgs<T>> ExtendedCollectionChanged
         {
             add
@@ -575,17 +334,14 @@ namespace ProFrame.Model
             }
         }
 
-        /// <summary>Raises the System.Collections.ObjectModel.ObservableCollection{T}.CollectionChanged event with the provided arguments. </summary>
-        /// <param name="e">Arguments of the event being raised. </param>
+        /// <summary>Вызывает события System.Collections.ObjectModel.ObservableCollection{T}.CollectionChanged с изменными элементами </summary>
+        /// <param name="e">параметры события </param>
         protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
             base.OnCollectionChanged(e);
 
-            var copy = _extendedCollectionChanged;
-            if (copy != null)
+            if (_extendedCollectionChanged != null)
             {
-                var oldCollection = ProvideOldCollection ? _oldCollection.ToList() : null;
-
                 var addedItems = new List<T>();
                 foreach (var item in this.Where(x => !_oldCollection.Contains(x))) // new items
                 {
@@ -600,7 +356,7 @@ namespace ProFrame.Model
                     _oldCollection.Remove(item);
                 }
 
-                copy(this, new MtNotifyCollectionChangedEventArgs<T>(addedItems, removedItems, oldCollection));
+                _extendedCollectionChanged(this, new MtNotifyCollectionChangedEventArgs<T>(addedItems, removedItems));
             }
         }
     }
@@ -608,12 +364,11 @@ namespace ProFrame.Model
     public class MtNotifyCollectionChangedEventArgs<T> : PropertyChangedEventArgs
     {
 
-        public MtNotifyCollectionChangedEventArgs(IList<T> addedItems, IList<T> removedItems, IList<T> oldCollection)
+        public MtNotifyCollectionChangedEventArgs(IList<T> addedItems, IList<T> removedItems)
             : base(null)
         {
             AddedItems = addedItems;
             RemovedItems = removedItems;
-            OldCollection = oldCollection;
         }
 
         /// <summary>
@@ -625,11 +380,6 @@ namespace ProFrame.Model
         /// Gets or sets the list of removed items. 
         /// </summary>
         public IList<T> RemovedItems { get; private set; }
-
-        /// <summary>
-        /// Gets the previous collection (only provided when enabled in the <see cref="MtObservableCollection{T}"/> object). 
-        /// </summary>
-        public IList<T> OldCollection { get; private set; }
 
     }
 
