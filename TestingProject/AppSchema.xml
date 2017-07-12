@@ -1,18 +1,40 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Tables>
     <Table Name="SUBDIV" Comment="Справочник подразделений" SchemaName="APSTAFF">
-      <Column Name="SUBDIV_ID" Comment="Уникальный идентификатор подразделения, из которого образовалось данное подразделение;" DBType="NUMBER" Type="System.Decimal" IsPrimaryKey="True"/>
-      <Column Name="GR_WORK_ID" Comment="Уникальный идентификатор графика работы;" DBType="NUMBER" Type="System.Decimal"/>
-      <Column Name="TYPE_SUBDIV_ID" Comment="Наименование типа подразделения;" DBType="NUMBER" Type="System.Decimal"/>
-      <Column Name="FROM_SUBDIV" Comment="Уникальный идентификатор подразделения, из которого образовалось данное подразделение;" DBType="NUMBER" Type="System.Decimal"/>
-      <Column Name="PARENT_ID" Comment="Код подразделения; Код подразделения, которому подчиняется данное подразделение;" DBType="NUMBER" Type="System.Decimal"/>
-      <Column Name="SUB_DATE_END" Comment="Дата окончания действия имени и кода для данного подразделения;" DBType="DATE" Type="System.DateTime"/>
-      <Column Name="SUB_DATE_START" Comment="Дата введения в действие кода и наименования для данного подразделения;" DBType="DATE" Type="System.DateTime"/>
-      <Column Name="SERVICE_ID" Comment="Уникальный идентификатор службы завода;" DBType="NUMBER" Type="System.Decimal"/>
-      <Column Name="WORK_TYPE_ID" Comment="Уникальный идентификатор типа работы подразделения;" DBType="NUMBER" Type="System.Decimal"/>
-      <Column Name="SUB_ACTUAL_SIGN" Comment="Признак актуальности; Признак актуальности подразделения (если равен 1, то подразделение в данный момент актуально, если 0, то подразделение не актуально, то есть было когда-то, но сейчас его нет);" DBType="NUMBER" Type="System.Int16"/>
-      <Column Name="SUBDIV_NAME" Comment="Наименование подразделения; Текущее наименование подразделения;" DBType="VARCHAR2" Type="System.String" Nullable="False"/>
-      <Column Name="CODE_SUBDIV" Comment="Код подразделения; Текущий код подразделения;" DBType="VARCHAR2" Type="System.String"/>
+      <Columns>
+        <Column Name="SUBDIV_ID" Comment="Уникальный идентификатор подразделения, из которого образовалось данное подразделение;" DBType="NUMBER" Type="System.Decimal" IsPrimaryKey="True"/>
+        <Column Name="GR_WORK_ID" Comment="Уникальный идентификатор графика работы;" DBType="NUMBER" Type="System.Decimal"/>
+        <Column Name="TYPE_SUBDIV_ID" Comment="Наименование типа подразделения;" DBType="NUMBER" Type="System.Decimal"/>
+        <Column Name="FROM_SUBDIV" Comment="Уникальный идентификатор подразделения, из которого образовалось данное подразделение;" DBType="NUMBER" Type="System.Decimal"/>
+        <Column Name="PARENT_ID" Comment="Код подразделения; Код подразделения, которому подчиняется данное подразделение;" DBType="NUMBER" Type="System.Decimal"/>
+        <Column Name="SUB_DATE_END" Comment="Дата окончания действия имени и кода для данного подразделения;" DBType="DATE" Type="System.DateTime"/>
+        <Column Name="SUB_DATE_START" Comment="Дата введения в действие кода и наименования для данного подразделения;" DBType="DATE" Type="System.DateTime"/>
+        <Column Name="SERVICE_ID" Comment="Уникальный идентификатор службы завода;" DBType="NUMBER" Type="System.Decimal"/>
+        <Column Name="WORK_TYPE_ID" Comment="Уникальный идентификатор типа работы подразделения;" DBType="NUMBER" Type="System.Decimal"/>
+        <Column Name="SUB_ACTUAL_SIGN" Comment="Признак актуальности; Признак актуальности подразделения (если равен 1, то подразделение в данный момент актуально, если 0, то подразделение не актуально, то есть было когда-то, но сейчас его нет);" DBType="NUMBER" Type="System.Int16"/>
+        <Column Name="SUBDIV_NAME" Comment="Наименование подразделения; Текущее наименование подразделения;" DBType="VARCHAR2" Type="System.String" Nullable="False"/>
+        <Column Name="CODE_SUBDIV" Comment="Код подразделения; Текущий код подразделения;" DBType="VARCHAR2" Type="System.String"/>
+      </Columns>
+    </Table>
+    <Table Name="TAX_COMPANY" SchemaName="SALARY">
+      <Columns>
+        <Column Name="TAX_COMPANY_ID" DBType="NUMBER" Nullable="False" Type="System.Decimal"/>
+        <Column Name="COMPANY_NAME" Comment="Наименование организации" DBType="VARCHAR2" Nullable="False" Type="System.String"/>
+        <Column Name="OKTMO" Comment="ОКТМО сдачи отчетности" DBType="VARCHAR2" Type="System.String"/>
+        <Column Name="TEL" Comment="Телефон организации" DBType="VARCHAR2" Type="System.String"/>
+        <Column Name="INN" Comment="ИНН" DBType="VARCHAR2" Type="System.String"/>
+        <Column Name="KPP" Comment="КПП" DBType="VARCHAR2" Type="System.String"/>
+        <Column Name="AGENT_STATUS" Comment="Признак агента " DBType="VARCHAR2" Type="System.String"/>
+        <Column Name="AGENT_NAME" Comment="ФИО подписанта" DBType="VARCHAR2" Type="System.String"/>
+        <Column Name="DATE_BEGIN" Comment="Дата начала действия организации" DBType="DATE" Nullable="False" Type="System.DateTime"/>
+        <Column Name="DATE_END" Comment="Дата окончания действия организации" DBType="DATE" Nullable="False" Type="System.DateTime"/>
+        <Column Name="COMMENTS" Comment="Комментарий" DBType="VARCHAR2" Type="System.String"/>
+        <Column Name="SHORT_COMPANY_NAME" Comment="Сокращенное название" DBType="VARCHAR2" Type="System.String"/>
+        <Column Name="AGENT_DOCUMENT" Comment="Документ подтверждающий полномочия представителя" DBType="VARCHAR2" Type="System.String"/>
+        <Column Name="OGRN" Comment="ОГРН" DBType="VARCHAR2" Type="System.String"/>
+        <Column Name="PARENT_CODE" Comment="Код подчиненности" DBType="VARCHAR2" Type="System.String"/>
+        <Column Name="REG_NUMBER" Comment="Регистрационный номер" DBType="VARCHAR2" Type="System.String"/>
+      </Columns>
     </Table>
 </Tables>
 

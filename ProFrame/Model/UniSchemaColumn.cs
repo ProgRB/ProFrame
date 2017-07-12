@@ -10,9 +10,12 @@ namespace ProFrame
     /// Класс представляющий аналог колонки столбца в модели данных
     /// </summary>
     [Serializable]
-    [XmlRoot(ElementName ="Column")]
+    [XmlType("Column")]
     public class UniSchemaColumn
     {
+        public UniSchemaColumn()
+        {
+        }
         /// <summary>
         /// Наименование в модели
         /// </summary>
@@ -26,9 +29,25 @@ namespace ProFrame
         /// Тип колонки в модели
         /// </summary>
         [XmlAttribute(AttributeName ="Type")]
-        public Type ColumnType
+        public string ColumnTypeString
         {
             get;set;
+        }
+
+        [XmlIgnore]
+        public Type ColumnType
+        {
+            get
+            {
+                if (ColumnTypeString == null)
+                    return null;
+                else
+                   return  Type.GetType(ColumnTypeString);
+            }
+            set
+            {
+                ColumnTypeString = value.FullName;
+            }
         }
 
         /// <summary>
@@ -69,6 +88,12 @@ namespace ProFrame
 
         [XmlAttribute(AttributeName = "ToolTipText")]
         public string ToolTipText
+        {
+            get;set;
+        }
+
+        [XmlAttribute(AttributeName = "IsVisible")]
+        public bool IsVisible
         {
             get;set;
         }

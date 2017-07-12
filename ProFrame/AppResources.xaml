@@ -128,11 +128,6 @@
 
     </Style>
 
-    <Style TargetType="{x:Type Button}" x:Key="ToolBoxBtStyle">
-        <Setter Property="Margin" Value="2,1,2,1"/>
-        <Setter Property="ToolTipService.ShowOnDisabled" Value="True"/>
-        <Setter Property="ToolTip" Value="{Binding Command.Text, RelativeSource={RelativeSource Mode=Self}}"/>
-    </Style>
     <Style TargetType="{x:Type Image}" x:Key="ToolBoxImageStyle">
         <Setter Property="Width" Value="20"/>
         <Setter Property="Height" Value="20"/>
@@ -145,6 +140,18 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" x:Key="PanelGrayBack">
+        <GradientStop Color="#FFFCFCFE" Offset="0" />
+        <GradientStop Color="#FFABAB87" Offset="1" />
+        <GradientStop Color="#FFE7E3DA" Offset="0.512" />
+    </LinearGradientBrush>
+
+    <Style x:Key="ToolBoxButtonStyle" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" TargetType="Button">
+        <Setter Property="Control.Margin" Value="3,3"/>
+        <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Command.Text}"/>
+        <Setter Property="ToolTipService.ShowOnDisabled" Value="True"/>
+    </Style>
+
     <Style TargetType="{x:Type CheckBox}" x:Key="ToolBoxCbStyle">
         <Setter Property="Width" Value="22"/>
         <Setter Property="Height" Value="22"/>

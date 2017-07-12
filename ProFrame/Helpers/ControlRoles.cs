@@ -26,7 +26,7 @@ namespace ProFrame
         /// <returns></returns>
         public static bool GetState(string ControlName)
         {
-            return _controlRoles.Contains(ControlName.ToUpper());
+            return _controlRoles.Contains((ControlName??string.Empty).ToUpper());
         }
         /// <summary>
         /// Проверка доступности пользователю команды 

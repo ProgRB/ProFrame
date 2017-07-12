@@ -7,14 +7,17 @@ using System.Xml.Serialization;
 namespace ProFrame
 {
     [Serializable]
-    [XmlRoot(ElementName ="Table")]
+    [XmlType("Table")]
     public class UniSchemaTable
     {
+        public UniSchemaTable()
+        {
+            Columns = new List<UniSchemaColumn>();
+        }
         /// <summary>
         /// Имя таблицы (сущности)
         /// </summary>
         [XmlAttribute(AttributeName ="FriendlyName")]
-        
         public string TableName
         {
             get;set;
@@ -32,6 +35,7 @@ namespace ProFrame
         /// <summary>
         /// Имя схемы в базе данных
         /// </summary>
+        [XmlAttribute(AttributeName ="SchemaName")]
         public string SchemaName
         {
             get; set;
@@ -46,8 +50,8 @@ namespace ProFrame
             get;set;
         }
 
-        [XmlArray]
-        public UniSchemaColumn[] Columns
+        [XmlArray("Columns")]
+        public List<UniSchemaColumn> Columns
         {
             get;set;
         }

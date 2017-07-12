@@ -27,20 +27,27 @@ namespace TestingProject
             connect.Open();
             MessageBox.Show("Успешное соединение");
 
-            UniDbCommand cmd = new UniDbCommand("select * from apstaff.emp where emp_birth_date=:p_date and per_num=:p_per_num and perco_sync_id=:p_perco_sync_id  order by per_num", connect);
-            cmd.Parameters.Add("p_per_num", UniDbType.String, "14534");
-            cmd.Parameters.Add("p_date", UniDbType.DateTime, new DateTime(1989, 7, 8));
-            cmd.Parameters.Add("p_perco_sync_id", UniDbType.Decimal, 9479);
-            /*var p = cmd.ExecuteScalar();
-            MessageBox.Show($"значение={p}");*/
+            /* UniDbCommand cmd = new UniDbCommand("select * from apstaff.emp where emp_birth_date=:p_date and per_num=:p_per_num and perco_sync_id=:p_perco_sync_id  order by per_num", connect);
+             cmd.Parameters.Add("p_per_num", UniDbType.String, "14534");
+             cmd.Parameters.Add("p_date", UniDbType.DateTime, new DateTime(1989, 7, 8));
+             cmd.Parameters.Add("p_perco_sync_id", UniDbType.Decimal, 9479);
+             /*var p = cmd.ExecuteScalar();
+             MessageBox.Show($"значение={p}");
 
-            UniDbDataReader dr = cmd.ExecuteReader();
-            List<string> ls = new List<string>();
-            while (dr.Read())
-            {
-                ls.Add(dr["PER_NUM"].ToString());
-            }
-            MessageBox.Show($"Загружен список Reader ом, кол-во равно = {ls.Count}; last per_num={ls[ls.Count-1]}");
+             UniDbDataReader dr = cmd.ExecuteReader();
+             List<string> ls = new List<string>();
+             while (dr.Read())
+             {
+                 ls.Add(dr["PER_NUM"].ToString());
+             }
+             MessageBox.Show($"Загружен список Reader ом, кол-во равно = {ls.Count}; last per_num={ls[ls.Count-1]}");*/
+            AppConstants.Schema_Name_Handbook = "APSTAFF";
+            AppConstants.App_Name_ID = 11;
+            TableEditorWindow f = new TableEditorWindow("SALARY.TAX_COMPANY");
+            f.Model.EditCommand = "AddEmpPaySalary";
+            f.Owner = Window.GetWindow(this);
+            f.ShowDialog();
+            
         }
 
         private void TestAutorization_Click(object sender, RoutedEventArgs e)

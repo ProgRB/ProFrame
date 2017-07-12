@@ -43,9 +43,10 @@ namespace ProFrame
         {
             if (File.Exists(settingFileName))
             {
-                XmlSerializer xs = new XmlSerializer(typeof(UniSchemaTable));
+                XmlSerializer xs = new XmlSerializer(typeof(UniSchemaTable), new XmlRootAttribute("Tables"));
                 FileStream f = File.Open(settingFileName, FileMode.Open, FileAccess.Read, FileShare.Read);
-                _tables = (UniSchemaTable[]) xs.Deserialize(f);
+                object v=xs.Deserialize(f);
+                _tables = (UniSchemaTable[])v; 
             }
             else
                 _tables = new UniSchemaTable[]{ };

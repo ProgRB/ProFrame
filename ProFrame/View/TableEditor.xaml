@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="ProFrame.TableEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProFrame"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             mc:Ignorable="d"
+             Background="White" Height="296.718" Width="435.23">
+    <UserControl.CommandBindings>
+        <CommandBinding Command="local:TableEditor.AddItem" CanExecute="Add_CanExecute" Executed="Add_executed"/>
+        <CommandBinding Command="local:TableEditor.DeleteItem" CanExecute="Delete_CanExecute" Executed="Delete_executed"/>
+        <CommandBinding Command="local:TableEditor.SaveItems" CanExecute="Save_CanExecute" Executed="Save_executed"/>
+    </UserControl.CommandBindings>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/ProFrame;component/AppResources.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="Separator" BasedOn="{StaticResource ResourceKey={x:Static ToolBar.SeparatorStyleKey}}"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <DockPanel>
+        <WrapPanel Background="{StaticResource PanelGrayBack}" DockPanel.Dock="Top">
+            <Button Command="local:TableEditor.AddItem" Style="{StaticResource ToolBoxButtonStyle}">
+                <Image Source="pack://application:,,,/ProFrame;component/Images/new_1616.png" Style="{StaticResource ToolBoxImageStyle}"/>
+            </Button>
+            <Button Command="local:TableEditor.DeleteItem" Style="{StaticResource ToolBoxButtonStyle}">
+                <Image Source="pack://application:,,,/ProFrame;component/Images/delete_1616.png" Style="{StaticResource ToolBoxImageStyle}"/>
+            </Button>
+            <Separator/>
+            <Button Command="local:TableEditor.DeleteItem" Style="{StaticResource ToolBoxButtonStyle}">
+                <Image Source="pack://application:,,,/ProFrame;component/Images/save_2222.png" Style="{StaticResource ToolBoxImageStyle}"/>
+            </Button>
+            <Separator/>
+            <Button Style="{StaticResource ToolBoxButtonStyle}" Click="RefreshTable_Click">
+                <Image Source="pack://application:,,,/ProFrame;component/Images/refresh_2424.png" Style="{StaticResource ToolBoxImageStyle}"/>
+            </Button>
+            
+        </WrapPanel>
+        <telerik:RadGridView x:Name="grid" ItemsSource="{Binding Items}" AutoGenerateColumns="False" CanUserInsertRows="False" SelectedItem="{Binding CurrentItem, UpdateSourceTrigger=PropertyChanged}"
+                             telerik:StyleManager.Theme="Office_Silver">
+            
+        </telerik:RadGridView>
+
+    </DockPanel>
+</UserControl>

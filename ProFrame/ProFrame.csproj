@@ -142,6 +142,7 @@
     <Compile Include="TestGridView.xaml.cs">
       <DependentUpon>TestGridView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\TableEditorViewModel.cs" />
     <Compile Include="ViewModel\ViewTabBase.cs" />
     <Compile Include="ViewModel\ViewTabCollection.cs" />
     <Compile Include="Reports\ViewReportWindow.xaml.cs">
@@ -149,6 +150,12 @@
     </Compile>
     <Compile Include="Helpers\WaitWindow.xaml.cs">
       <DependentUpon>WaitWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TableEditor.xaml.cs">
+      <DependentUpon>TableEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TableEditorWindow.xaml.cs">
+      <DependentUpon>TableEditorWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\Autorization.xaml.cs">
       <DependentUpon>Autorization.xaml</DependentUpon>
@@ -208,6 +215,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Helpers\WaitWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TableEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TableEditorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -279,6 +294,12 @@
     <Content Include="DLLs\Telerik.Windows.Controls.dll" />
     <Content Include="DLLs\Telerik.Windows.Controls.GridView.dll" />
     <Content Include="DLLs\Telerik.Windows.Data.dll" />
+    <Resource Include="Images\refresh_2424.png" />
+    <Resource Include="Images\delete_1616.png" />
+    <Resource Include="Images\edit_1616.png" />
+    <Resource Include="Images\excel_3232.png" />
+    <Resource Include="Images\new_1616.png" />
+    <Resource Include="Images\save_2222.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
