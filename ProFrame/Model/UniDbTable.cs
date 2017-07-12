@@ -1,35 +1,19 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Text;
 
-namespace ProFrame
+namespace ProFrame.Model
 {
-    public class UniDbTable<T>: ObservableCollection<T>, IList<T>, IDisposable, IList, INotifyCollectionChanged, INotifyPropertyChanged where T: UniDbRow, new()
+    public class UniDbTable<T>:ObservableCollectionViewBase<T> where T: UniDbRow
     {
-        /// <summary>
-        /// Конструктор коллекции с именем таблицы. Имя схемы указывается через точку (если требуется)
-        /// </summary>
-        /// <param name="tableName">Имя таблицы (и схемы если другая)</param>
-        public UniDbTable(string tableName)
+        public UniDbTable(string tableName, string schemaName = null)
         {
-            if (tableName.Contains("."))
-            {
-                SchemaName = tableName.Substring(1, tableName.IndexOf('.'));
-                TableName = tableName.Substring(tableName.IndexOf('.') + 1);
-            }
-            else
-            {
-                TableName = tableName;
-            }
-           
+            TableName = tableName;
+            if (!string.IsNullOrEmpty(schemaName))
+                SchemaName = schemaName;
         }
-
         public UniDbTable(DataTable table)
         {
             TableName = table.TableName;
@@ -67,8 +51,6 @@ namespace ProFrame
             }
         }
 
-
-
         /// <summary>
         /// Реальное имя таблицы которую надо обновлять и откуда получать данные
         /// </summary>
@@ -86,9 +68,6 @@ namespace ProFrame
         }
 
         DataTable _table;
-        /// <summary>
-        /// Таблица данных
-        /// </summary>
         public DataTable Table
         {
             get
@@ -98,20 +77,6 @@ namespace ProFrame
             set
             {
                 _table = value;
-            }
-        }
-
-        UniSchemaTable _schemaOfTable;
-        /// <summary>
-        /// Схема-структура представления таблицы
-        /// </summary>
-        public UniSchemaTable SchemaOfTable
-        {
-            get
-            {
-                if (_schemaOfTable==null)
-                    _schemaOfTable = SchemaTableManager.GetTable(DbTableName);
-                return _schemaOfTable;
             }
         }
 
@@ -141,7 +106,7 @@ namespace ProFrame
 
             if (!string.IsNullOrEmpty(DbTableName))
             {
-                _dataAdapter.SelectCommand = UniCommandBuilder.GetSelectCommand(SchemaName, TableName);
+                _dataAdapter.SelectCommand = UniCommandBuilder.GetSelectCommand(SchemaName, DbTableName);
             }
             UniSchemaColumn[] cols = SchemaTableManager.GetUpdatedColumns(TableName).ToArray();
             if (cols == null) return;
@@ -181,11 +146,6 @@ namespace ProFrame
             IDbTransaction tr = Connection.BeginTransaction();
             try
             {
-                string primaryColumn = SchemaOfTable.Columns.FirstOrDefault(r => r.IsPrimaryKey).DbColumnName;
-                if (!string.IsNullOrEmpty(primaryColumn))
-                    foreach (DataRow r in Table.Rows)
-                        if (r.RowState == DataRowState.Added && r[primaryColumn] != DBNull.Value)
-                            r[primaryColumn] = DBNull.Value;
                 _dataAdapter.Update(Table);
                 tr.Commit();
                 Table.AcceptChanges();
@@ -198,9 +158,6 @@ namespace ProFrame
             }
         }
 
-        /// <summary>
-        /// Обновление данных коллекци с помощью адаптера
-        /// </summary>
         public void RefreshTableView()
         {
             if (DataAdapter == null)
@@ -208,77 +165,8 @@ namespace ProFrame
             if (Table == null)
                 Table = new DataTable();
             DataAdapter.Fill(Table);
-            ClearItems();
-            foreach (var item in GetItems())
-                Add(item);
-            OnPropertyChanged(new PropertyChangedEventArgs("Count"));
+            
         }
-
-        public IEnumerable<T> GetItems()
-        {
-            var items = from p in Table.AsEnumerable()
-                        where p.RowState != DataRowState.Deleted && p.RowState != DataRowState.Detached
-                        select new T() { DataRow = p };
-            return items;
-        }
-
-        
-       
-        public void Dispose()
-        {
-            Table.Dispose();
-            DataAdapter.Dispose();
-        }
-        
-        /// <summary>
-        /// Метод помечает все записи в таблицы для удаления (при сохранении удалит из базы данных)
-        /// </summary>
-        public void RemoveAll()
-        {
-            for (int i = Count - 1; i > -1; --i)
-            {
-                RemoveItem(i);
-            }
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-        }
-
-        protected override void RemoveItem(int index)
-        {
-            T value = this[index];
-            if (value.DataRow != null && value.DataRow.RowState != DataRowState.Deleted)
-                value.DataRow.Delete();
-            base.RemoveItem(index);
-        }
-
-        protected override void InsertItem(int index, T item)
-        {
-            if (item.DataRow == null)
-                item.DataRow = Table.Rows.Add();
-            base.InsertItem(index, item);
-        }
-   
-        /// <summary>
-        /// Имеются ли изменения в таблице данных
-        /// </summary>
-        public bool HasChanges
-        {
-            get
-            {
-                return Table?.GetChanges() != null;
-            }
-        }
-
-        /// <summary>
-        /// Перегруженный метод очищает и коллекцию,и связанные данные в таблице
-        /// </summary>
-        protected override void ClearItems()
-        {
-            for (int i = Count - 1; i > -1; --i)
-            {
-                Items[i].DataRow.Delete();
-            }
-            Table.AcceptChanges();
-            base.ClearItems();
-        }
+                
     }
 }

@@ -10,7 +10,7 @@ using System.Text;
 namespace ProFrame.Model
 {
 
-    /// <summary>Представление для данных типа <see cref="ObservableCollection{T}"/> с возможностью сортировки и фильтрациии </summary>
+     /// <summary>Представление для данных типа <see cref="ObservableCollection{T}"/> с возможностью сортировки и фильтрациии </summary>
     /// <typeparam name="TItem">Tип элементов </typeparam>
     public abstract class ObservableCollectionViewBase<TItem> : IList<TItem>, IDisposable, IList, INotifyCollectionChanged, INotifyPropertyChanged
     {
